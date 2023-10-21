@@ -41,7 +41,13 @@ const App: React.FC = () => {
           create scrollable layout. but when we want to create
           dynamic list, we can use FlatList instead.
         */}
-        <ScrollView>
+        <ScrollView
+          // To hide scrollbar
+          showsVerticalScrollIndicator={false}
+
+          // To make items can't be scrollable if the items/child is not overflow. (iOS only)
+          alwaysBounceVertical={false}
+        >
           {courseGoal.map((goal) => (
             // <Text key={goal.toString()} style={styles.goalItem}>{goal}</Text>
             <View key={goal.toString()} style={styles.goalItem}>
