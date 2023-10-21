@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button, TextInput, ScrollView, StyleSheet } from "react-native";
+import { View, Text, Button, TextInput, FlatList , StyleSheet } from "react-native";
 
 const App: React.FC = () => {
   const [enteredGoalText, setEnteredGoalText] = useState<string>('');
@@ -19,36 +19,40 @@ const App: React.FC = () => {
         <Button title="Add Goal" onPress={handleAddGoal} />
       </View>
       <View style={styles.goalContainer}>
-        {/* 
-          ScrollView Component is used to make 
-          the child component scrollable. It can be used
-          if we want to create scrollable layout, if we want to make
-          sure our layout can work nicely on each devices when we don't
-          know which device that user will use (maybe user will use our app
-          on small device and it will make our content is hidden when the 
-          content size is overflow, so in order to fix it, we can use
-          ScrollView component).
+        <FlatList 
+          data={courseGoal} 
+          // To hide scroll (default true)
+          showsVerticalScrollIndicator={false}
 
-          But ScrollView will render all items 
-          at once when component is rendered. So for example
-          if we have 5000 items, then those items will be rendered
-          at once and it will slow down our app.
+          // To make content is desibled when the item is not overflow yet (default true)
+          // it works on iOS only, because in Android if the item is not overflow, the container can't be scrollable
+          alwaysBounceVertical={false}
 
-          So don't we use ScrollView on that case, we can use
-          FlatList component instead.
+          /* To render component */
+          renderItem={(itemData) => {
+            const {item, index} = itemData;
+            console.log('Index item', index);
+            return (
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{item}</Text>
+              </View>
+            )
+          }}
 
-          So actually we will use ScrollView when we want to
-          create scrollable layout. but when we want to create
-          dynamic list, we can use FlatList instead.
-        */}
-        <ScrollView>
-          {courseGoal.map((goal) => (
-            // <Text key={goal.toString()} style={styles.goalItem}>{goal}</Text>
-            <View key={goal.toString()} style={styles.goalItem}>
-              <Text style={styles.goalText}>{goal}</Text>
-            </View>
-          ))}
-        </ScrollView>
+          /* 
+            To define key.
+            But actually it's optional props
+            if in our data have key or id property.
+            because if our data don't have those properties at least one
+            id or key. FlatList will use index instead but it will be bad,
+            so bcs of that we have to define our key manually in order to prevent
+            FlatList using id.
+
+            So if your data have id or key property, you don't need
+            to define the key.
+          */
+         keyExtractor={(item, index) => item.toString()}
+        />
       </View>
     </View>
   );
