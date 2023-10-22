@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, FlatList , StyleSheet, Alert } from "react-native";
+import { View, FlatList, Alert, Button, StyleSheet } from "react-native";
 import { GoalInput, GoalItem } from "./components";
 
 interface IState {
@@ -8,6 +8,7 @@ interface IState {
 }
 
 const App: React.FC = () => {
+  const [visible, setVisible] = useState<boolean>(false);
   const [courseGoal, setCourseGoal] = useState<IState[]>([]);
 
   const handleAddGoal = (enteredGoalText: string): void => {
@@ -15,7 +16,11 @@ const App: React.FC = () => {
       text: enteredGoalText,
       id: Math.random().toString()
     }])
+    handleCloseModal();
   };
+
+  const handleOpenModal = () => setVisible(true);
+  const handleCloseModal = () => setVisible(false);
 
   const handleDeleteGoalItem = (id: string): void => {
     Alert.alert('DELETED', "The selected goal has been deleted")
@@ -24,7 +29,16 @@ const App: React.FC = () => {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={handleAddGoal} />
+      <Button 
+        title="Add Goal"
+        onPress={handleOpenModal}
+        color="#560acc"
+      />
+      <GoalInput 
+        visible={visible}
+        onAddGoal={handleAddGoal}
+        onCancel={handleCloseModal}
+      />
       <View style={styles.goalContainer}>
         <FlatList 
           data={courseGoal} 
@@ -32,7 +46,11 @@ const App: React.FC = () => {
           alwaysBounceVertical={false}
           renderItem={(itemData) => {
            return (
-            <GoalItem id={itemData.item.id} text={itemData.item.text} onDeleteGoal={handleDeleteGoalItem} />
+            <GoalItem 
+              id={itemData.item.id} 
+              text={itemData.item.text} 
+              onDeleteGoal={handleDeleteGoalItem} 
+            />
            )
           }}
          keyExtractor={(item, index) => item.id.toString()}
