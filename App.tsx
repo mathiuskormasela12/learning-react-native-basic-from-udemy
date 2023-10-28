@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
+import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
@@ -25,8 +25,16 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.imageBackground}
         resizeMode="cover"
-      >
-        {screen}
+      > 
+       {
+        /**
+          SafeAreaView is used to put our its children to bottom of
+          status bar.  
+        */
+       }
+        <SafeAreaView style={styles.rootScreen}>
+          {screen}
+        </SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );
@@ -35,7 +43,6 @@ export default function App() {
 const styles = StyleSheet.create({
   rootScreen: {
     flex: 1,
-    backgroundColor: '#ddb52f'
   },
   imageBackground: {
     opacity: 0.15
