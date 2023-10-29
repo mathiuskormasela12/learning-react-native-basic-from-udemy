@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, TextInput, Alert, StyleSheet} from 'react-native';
-import PrimaryButton from '../components/PrimaryButton';
+import PrimaryButton from '../components/ui/PrimaryButton';
+import Card from '../components/ui/Card';
 
 interface IProps {
   onPickNumber: (pickedNumber: number) => void;
@@ -35,7 +36,7 @@ const StartGameScreen: React.FC<IProps> = ({ onPickNumber }) => {
   }
 
   return (
-    <View style={styles.inputContainer}>
+    <Card>
       <TextInput 
         style={styles.textInput}
         keyboardType="number-pad" 
@@ -57,34 +58,13 @@ const StartGameScreen: React.FC<IProps> = ({ onPickNumber }) => {
           </PrimaryButton>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
 
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    marginTop: 100,
-    marginHorizontal: 24,
-    padding: 16,
-    backgroundColor: '#3b021f',
-    borderRadius: 8,
-    alignItems: 'center',
-
-    // To add shadow on Android
-    elevation: 2,
-
-    // To add shadow on iOS
-    shadowColor: 'black', // To set shadow color
-    shadowOffset: {
-      width: 0, // To set shadow position, left or right
-      height: 2 // To set shadow position, top or bottom
-    }, // To set shadow position
-    shadowRadius: 6, // To set shadow radius
-    shadowOpacity: 0.25 // To set shadow opacity
-  },
-
   textInput: {
     width: 50,
     height: 50,
