@@ -2,9 +2,10 @@ import {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import { generateRandomBetween } from '../utils/generateRandomBetween';
 
-type UseGameScreen = (userNumber: number, onGameOver: () => void) => {
+type UseGameScreen = (userNumber: number, onGameOver: (value: number) => void) => {
   currentGuess: number; 
   handleGuess: HandleGuess;
+  guessRounds: number[];
 }
 
 type Direction = 'lower' | 'greater';
@@ -17,6 +18,7 @@ let maxBoundary = 100;
 const useGameScreen: UseGameScreen = (userNumber, onGameOver) => {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState<number>(initialGuess);
+  const [guessRounds, setGuessRounds] = useState<number[]>([]);
 
   const handleGuess: HandleGuess = (direction) => {
     if(
@@ -40,17 +42,24 @@ const useGameScreen: UseGameScreen = (userNumber, onGameOver) => {
 
     const newRnDNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
     setCurrentGuess(() => newRnDNumber);
+    setGuessRounds((prevGuessRounds) => [newRnDNumber, ...prevGuessRounds])
   }
 
   useEffect(() => {
     if(currentGuess === userNumber) {
-      onGameOver();
+      onGameOver(guessRounds.length);
     }
   }, [currentGuess, useEffect, onGameOver])
 
+  useEffect(() => {
+    minBoundary = 1;
+    maxBoundary = 100;
+  }, []);
+
   return {
     currentGuess,
-    handleGuess
+    handleGuess,
+    guessRounds
   }
 }
 

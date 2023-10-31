@@ -11,14 +11,9 @@ import AppLoading from 'expo-app-loading';
 export default function App() {
   const [userNumber, setUserNumber] = useState<number | null>(null);
   const [gameIsOver, setGameIsOver] = useState<boolean>(true);
+  const [guessRounds, setGuessRounds] = useState<number>(0);
 
-  // Setup Font React Native Expo
-  const [
-    // it's a boolean, it will be true if fonts are loaded successfully
-    // it will be false if fonts aren't loaded yet
-    fontsLoaded
-  ] = useFonts({
-    // this a fon name, up to you
+  const [fontsLoaded] = useFonts({
     'my-bold-font': require('./assets/fonts/OpenSans-Bold.ttf'),
     'my-regular-font': require('./assets/fonts/OpenSans-Regular.ttf')
   })
@@ -28,8 +23,9 @@ export default function App() {
     setGameIsOver(false);
   }
 
-  const handleGameOver = (): void => {
+  const handleGameOver = (value: number): void => {
     setGameIsOver(true);
+    setGuessRounds(() => value);
   }
 
   let screen = <StartGameScreen onPickNumber={handlePickNumber} />;
@@ -38,8 +34,19 @@ export default function App() {
     screen = <GameScreen userNumber={userNumber} onGameOver={handleGameOver} />
   }
 
+  const handleStartNewGame = (): void => {
+    setUserNumber(null);
+    setGuessRounds(0);
+  }
+
   if(gameIsOver && userNumber) {
-    screen = <GameOverScreen />
+    screen = (
+      <GameOverScreen 
+        userNumber={userNumber}
+        roundsNumber={guessRounds}
+        onStartNewGame={handleStartNewGame}
+      />
+    )
   }
 
   if(!fontsLoaded) {

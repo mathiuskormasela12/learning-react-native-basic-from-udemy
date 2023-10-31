@@ -19,14 +19,14 @@ const StartGameScreen: React.FC<IProps> = ({ onPickNumber }) => {
 
     if(isNaN(pickedNumber) || pickedNumber <= 0 || pickedNumber > 99) {
       Alert.alert(
-        'Invalid number!', // Title
-        'Number has to be between 1 and 99', // Description
+        'Invalid number!',
+        'Number has to be between 1 and 99',
         [
           {
-            text: 'Okay', // Button Text
-            style: 'destructive' // Butten Style, value => 'cancel', 'default' or 'destructive'
+            text: 'Okay',
+            style: 'destructive'
           },
-        ] // Button List, on Android max 3 buttons, on on iOS you can add more 3 buttons
+        ]
       );
       return false;
     }

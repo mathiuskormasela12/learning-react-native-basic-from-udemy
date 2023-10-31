@@ -2,8 +2,15 @@ import React from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
 import Title from '../components/ui/Title';
 import Colors from '../constants/colors';
+import PrimaryButton from '../components/ui/PrimaryButton';
 
-const GameOverScreen: React.FC = () => {
+interface IProp {
+  userNumber: number;
+  roundsNumber: number;
+  onStartNewGame: () => void;
+}
+
+const GameOverScreen: React.FC<IProp> = ({onStartNewGame, roundsNumber, userNumber}) => {
   return (
     <View style={styles.rootContainer}>
       <Title>GAME OVER!</Title>
@@ -14,18 +21,10 @@ const GameOverScreen: React.FC = () => {
         />
       </View>
       <Text style={styles.summaryText}>
-        {
-          /*
-            When you put Text component inside Text component
-            the parent style will be applied to the child 
-            component as well. But it doesn't mean React Native
-            style has  cascading style, but it only happens because
-            of native UI element.
-          */
-        }
-        Your phone needed <Text style={styles.highlight}>X</Text> rounds to
-        guess the number <Text style={styles.highlight}>Y</Text>.
+        Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text> rounds to
+        guess the number <Text style={styles.highlight}>{userNumber}</Text>.
       </Text>
+      <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
     </View>
   );
 }

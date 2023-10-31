@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Title from '../components/ui/Title';
 import useGameScreen from '../hooks/useGameScreen';
@@ -7,14 +7,17 @@ import NumberContainer from '../components/game/NumberContainer';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Card from '../components/ui/Card';
 import InstructionText from '../components/ui/InstructionText';
+import GuessLogItem from '../components/game/GuessLogItem';
 
 interface IProp {
   userNumber: number;
-  onGameOver: () => void;
+  onGameOver: (value: number) => void;
 }
 
 const GameScreen: React.FC<IProp> = ({userNumber, onGameOver}) => {
-  const {currentGuess, handleGuess} = useGameScreen(userNumber, onGameOver)
+  const {currentGuess, handleGuess, guessRounds} = useGameScreen(userNumber, onGameOver)
+
+  const guessRoundsListLength = guessRounds.length;
 
   return (
    <View style={styles.screen}>
@@ -27,13 +30,6 @@ const GameScreen: React.FC<IProp> = ({userNumber, onGameOver}) => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <PrimaryButton onPress={handleGuess.bind(this, 'lower')}>
-            {
-              /* 
-                When you want to use icon in React Native Expo
-                is easy. We don't need to install additional package
-                because that package already includes on expo.
-              */
-            }
             <Ionicons 
               size={24} 
               name='md-remove' 
@@ -48,7 +44,22 @@ const GameScreen: React.FC<IProp> = ({userNumber, onGameOver}) => {
         </View>
       </View>
      </Card>
-     {/* <View>LOG ROUNDS</View> */}
+     <View style={styles.listContainer}>
+      {/* {guessRounds.map(item => (
+        <Text key={item}>{item}</Text>
+      ))} */}
+
+      <FlatList 
+        data={guessRounds}
+        keyExtractor={(item, index) => item.toString()}
+        renderItem={({index, item}) => (
+          <GuessLogItem  
+            roundNumber={guessRoundsListLength - index}
+            guess={item}
+          />
+        )}
+      />
+     </View>
    </View>
   );
 }
@@ -68,5 +79,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1
-  }
+  },
+  listContainer: {
+    flex: 1,
+    padding: 16,
+  },
 })
