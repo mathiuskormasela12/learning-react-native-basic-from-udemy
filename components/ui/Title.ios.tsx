@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.accent500,
     textAlign: 'center',
+    textDecorationLine: 'underline',
 
     // Define style for specific Platform first way
     // borderWidth: Platform.OS === 'android' ? 2 : 0,
