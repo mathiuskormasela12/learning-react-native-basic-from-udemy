@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Image, Text, Dimensions, useWindowDimensions, ScrollView} from 'react-native';
 import Title from '../components/ui/Title';
 import Colors from '../constants/colors';
 import PrimaryButton from '../components/ui/PrimaryButton';
@@ -11,21 +11,41 @@ interface IProp {
 }
 
 const GameOverScreen: React.FC<IProp> = ({onStartNewGame, roundsNumber, userNumber}) => {
+  const {height} = useWindowDimensions();
+
+  let imageSize = 300;
+
+  if(height < 380) {
+    imageSize = 150;
+  }
+
+  if(height < 400) {
+    imageSize = 80;
+  }
+
+  const imageStyle = {
+    width: imageSize,
+    height: imageSize,
+    borderRadius: imageSize / 2
+  }
+
   return (
-    <View style={styles.rootContainer}>
-      <Title>GAME OVER!</Title>
-      <View style={styles.imageContainer}>
-        <Image 
-          source={require('../assets/images/success.png')}
-          style={styles.image}
-        />
+    <ScrollView style={styles.screen}> 
+      <View style={styles.rootContainer}>
+        <Title>GAME OVER!</Title>
+        <View style={[styles.imageContainer, imageStyle]}>
+          <Image 
+            source={require('../assets/images/success.png')}
+            style={styles.image}
+          />
+        </View>
+        <Text style={styles.summaryText}>
+          Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text> rounds to
+          guess the number <Text style={styles.highlight}>{userNumber}</Text>.
+        </Text>
+        <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
       </View>
-      <Text style={styles.summaryText}>
-        Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text> rounds to
-        guess the number <Text style={styles.highlight}>{userNumber}</Text>.
-      </Text>
-      <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -33,7 +53,7 @@ export default GameOverScreen;
 
 // window => it will take space from bottom of status bar to the end of screen
 // screen => it will take space from status bar to end of screen
-const deviceWidth = Dimensions.get('window').width;
+// const deviceWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -43,9 +63,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   imageContainer: {
-    width: deviceWidth < 380 ? 150 : 300,
-    height: deviceWidth < 380 ? 150 : 300,
-    borderRadius: deviceWidth < 380 ? 75 : 150,
+    // width: deviceWidth < 380 ? 150 : 300,
+    // height: deviceWidth < 380 ? 150 : 300,
+    // borderRadius: deviceWidth < 380 ? 75 : 150,
     borderWidth: 3,
     borderColor: Colors.primary800,
     overflow: 'hidden',
@@ -64,5 +84,8 @@ const styles = StyleSheet.create({
   highlight: {
     color: Colors.primary500,
     fontFamily: 'my-bold-font'
+  },
+  screen: {
+    flex: 1,
   }
 })
