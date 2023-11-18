@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, Platform, StyleSheet} from 'react-native';
 import Colors from '../../constants/colors';
 
 const Title: React.FC<PropsWithChildren> = ({children}) => {
@@ -18,7 +18,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.accent500,
     textAlign: 'center',
-    borderWidth: 2,
+
+    // Define style for specific Platform first way
+    // borderWidth: Platform.OS === 'android' ? 2 : 0,
+
+    // Define style for spesific Platform second way
+    // borderWidth: Platform.select({ios: 0, android: 2}),
+
+    // Define style for spesific Platform third way, we can rename our file extension to .android.ts for spesific android and .ios.ts for specifig iOS
+
     borderColor: Colors.accent500,
     padding: 12,
     maxWidth: '80%',

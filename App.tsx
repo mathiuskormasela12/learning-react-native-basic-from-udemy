@@ -55,6 +55,9 @@ export default function App() {
 
   return (
     <>
+      {
+        // StatusBar
+      }
       <StatusBar translucent style="light" />
       <LinearGradient 
         style={styles.rootScreen}
