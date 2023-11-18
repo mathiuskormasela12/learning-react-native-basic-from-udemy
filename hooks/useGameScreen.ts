@@ -1,11 +1,12 @@
 import {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, useWindowDimensions} from 'react-native';
 import { generateRandomBetween } from '../utils/generateRandomBetween';
 
 type UseGameScreen = (userNumber: number, onGameOver: (value: number) => void) => {
   currentGuess: number; 
   handleGuess: HandleGuess;
   guessRounds: number[];
+  width: number;
 }
 
 type Direction = 'lower' | 'greater';
@@ -45,6 +46,8 @@ const useGameScreen: UseGameScreen = (userNumber, onGameOver) => {
     setGuessRounds((prevGuessRounds) => [newRnDNumber, ...prevGuessRounds])
   }
 
+  const {width} = useWindowDimensions();
+
   useEffect(() => {
     if(currentGuess === userNumber) {
       onGameOver(guessRounds.length);
@@ -59,7 +62,8 @@ const useGameScreen: UseGameScreen = (userNumber, onGameOver) => {
   return {
     currentGuess,
     handleGuess,
-    guessRounds
+    guessRounds,
+    width
   }
 }
 

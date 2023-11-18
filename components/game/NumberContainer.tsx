@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Dimensions, StyleSheet} from 'react-native';
 import Colors from '../../constants/colors';
 
 const NumberContainer: React.FC<PropsWithChildren> = ({children}) => {
@@ -12,23 +12,21 @@ const NumberContainer: React.FC<PropsWithChildren> = ({children}) => {
 
 export default NumberContainer;
 
+const deviceWidth: number = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   container: {
     borderWidth: 4,
     borderColor: Colors.accent500,
-    padding: 24,
-    margin: 24,
+    padding: deviceWidth < 380 ? 12 : 24,
+    margin: deviceWidth < 380 ? 12 : 24,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center'
   },
   numberText: {
     color: Colors.accent500,
-    fontSize: 36,
-    // fontWeight: 'bold',
-
-    // Define font name
-    // It depends on useFonts hook
+    fontSize: deviceWidth < 380 ? 28 : 36,
     fontFamily: 'my-bold-font'
   }
 })

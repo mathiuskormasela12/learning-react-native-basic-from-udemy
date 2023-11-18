@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Image, Text, Dimensions} from 'react-native';
 import Title from '../components/ui/Title';
 import Colors from '../constants/colors';
 import PrimaryButton from '../components/ui/PrimaryButton';
@@ -31,6 +31,10 @@ const GameOverScreen: React.FC<IProp> = ({onStartNewGame, roundsNumber, userNumb
 
 export default GameOverScreen;
 
+// window => it will take space from bottom of status bar to the end of screen
+// screen => it will take space from status bar to end of screen
+const deviceWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -39,10 +43,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   imageContainer: {
-    width: 300,
-    height: 300,
-    // Kita set borderRadius setengah dari ukuran width dan height
-    borderRadius: 150,
+    width: deviceWidth < 380 ? 150 : 300,
+    height: deviceWidth < 380 ? 150 : 300,
+    borderRadius: deviceWidth < 380 ? 75 : 150,
     borderWidth: 3,
     borderColor: Colors.primary800,
     overflow: 'hidden',

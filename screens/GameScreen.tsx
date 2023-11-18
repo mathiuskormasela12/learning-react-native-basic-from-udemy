@@ -15,14 +15,13 @@ interface IProp {
 }
 
 const GameScreen: React.FC<IProp> = ({userNumber, onGameOver}) => {
-  const {currentGuess, handleGuess, guessRounds} = useGameScreen(userNumber, onGameOver)
+  const {currentGuess, handleGuess, guessRounds, width} = useGameScreen(userNumber, onGameOver)
 
   const guessRoundsListLength = guessRounds.length;
 
-  return (
-   <View style={styles.screen}>
-     <Title>Opponent's Guess</Title>
-     <NumberContainer>
+  let content = (
+    <>
+      <NumberContainer>
       {currentGuess}
      </NumberContainer>
      <Card>
@@ -44,6 +43,41 @@ const GameScreen: React.FC<IProp> = ({userNumber, onGameOver}) => {
         </View>
       </View>
      </Card>
+    </>
+  )
+
+  if(width > 500) {
+    content = (
+      <>
+        <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
+        <View style={styles.buttonContainerWide}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={handleGuess.bind(this, 'lower')}>
+              <Ionicons 
+                size={24} 
+                name='md-remove' 
+                color={'white'} 
+              />
+            </PrimaryButton>
+          </View>
+          <NumberContainer>
+            {currentGuess}
+          </NumberContainer>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={handleGuess.bind(this, 'greater')}>
+              <Ionicons size={24} name='md-add' color={'white'} />
+            </PrimaryButton>
+          </View>
+        </View>
+
+      </>
+    )
+  }
+
+  return (
+   <View style={styles.screen}>
+     <Title>Opponent's Guess</Title>
+     {content}
      <View style={styles.listContainer}>
       {/* {guessRounds.map(item => (
         <Text key={item}>{item}</Text>
@@ -69,7 +103,12 @@ export default GameScreen;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 24
+    padding: 24,
+    alignItems: 'center'
+  },
+  buttonContainerWide: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   instructionText: {
     marginBottom: 12
