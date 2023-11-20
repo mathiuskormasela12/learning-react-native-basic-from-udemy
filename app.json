@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "guessing-game-app",
+    "name": "Guess App",
     "slug": "guessing-game-app",
     "version": "1.0.0",
     "orientation": "default",
@@ -15,16 +15,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "bundleIdentifier": "com.matthew.guessingapp"
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.matthew.guessingapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "193d2554-473d-4621-acb4-f3afa26ac85a"
+      }
     }
   }
 }
